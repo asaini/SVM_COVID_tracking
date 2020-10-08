@@ -58,7 +58,7 @@ def plot_county(county):
                 data.loc[(data['new_negative_tests'] < 0)] = np.nan
             except: 
                 data['new_negative_tests'] = np.nan
-                st.text('Negative test data not avilable')
+                st.write('Negative test data not avilable')
             data['new_negative_tests_rolling'] = data['new_negative_tests'].fillna(0).rolling(14).mean()
             
             
@@ -67,7 +67,7 @@ def plot_county(county):
                 data.loc[(data['new_positive_tests'] < 0)] = np.nan
             except: 
                 data['new_positive_tests'] = np.nan
-                st.text('test data not avilable')
+                st.write('test data not avilable')
             data['new_positive_tests_rolling'] = data['new_positive_tests'].fillna(0).rolling(14).mean()
             data['new_tests'] = data['new_negative_tests']+data['new_positive_tests']
             data['new_tests_rolling'] = data['new_tests'].fillna(0).rolling(14).mean()
@@ -114,7 +114,7 @@ def plot_county(county):
             data_to_show = (new_positive_tests_rolling / new_tests_rolling)*100
             return new_tests_rolling, data_to_show.iloc[-1:].values[0]
         else:
-            st.text('Getting testing data for California State')
+            st.write('Getting testing data for California State')
             path1 = 'https://data.covidactnow.org/latest/us/states/CA.OBSERVED_INTERVENTION.timeseries.json'
             df = json.loads(requests.get(path1).text)
             data = pd.DataFrame.from_dict(df['actualsTimeseries'])
@@ -135,7 +135,7 @@ def plot_county(county):
                 data.loc[(data['new_positive_tests'] < 0)] = np.nan
             except: 
                 data['new_positive_tests'] = np.nan
-                st.text('test data not avilable')
+                st.write('test data not avilable')
             data['new_positive_tests_rolling'] = data['new_positive_tests'].fillna(0).rolling(14).mean()
             data['new_tests'] = data['new_negative_tests']+data['new_positive_tests']
             data['new_tests_rolling'] = data['new_tests'].fillna(0).rolling(14).mean()
@@ -182,11 +182,11 @@ def plot_county(county):
     
     incidence['rolling_incidence'] = incidence.incidence.rolling(7).mean()
     metric = (incidence['rolling_incidence']*100000/population).iloc[[-1]]
-    st.text('Number of new cases averaged over last seven days = %s' %'{:,.1f}'.format(metric.values[0]))
-    st.text("Population under consideration = %s"% '{:,.0f}'.format(population))
-    st.text("Total cases = %s"% '{:,.0f}'.format(county_confirmed_time.tail(1).values[0][0]))
-    st.text("Total deaths = %s"% '{:,.0f}'.format(county_deaths_time.tail(1).values[0][0]))
-    st.text("% test positivity (14 day average)= "+"%.2f" % testing_percent)
+    st.write('Number of new cases averaged over last seven days = %s' %'{:,.1f}'.format(metric.values[0]))
+    st.write("Population under consideration = %s"% '{:,.0f}'.format(population))
+    st.write("Total cases = %s"% '{:,.0f}'.format(county_confirmed_time.tail(1).values[0][0]))
+    st.write("Total deaths = %s"% '{:,.0f}'.format(county_deaths_time.tail(1).values[0][0]))
+    st.write("% test positivity (14 day average)= "+"%.2f" % testing_percent)
     #print(county_deaths_time.tail(1).values[0])
     #print(cases_per100k.head())
     fig, ((ax4, ax3),(ax1, ax2)) = plt.subplots(2,2, figsize=(12,8))
@@ -248,7 +248,7 @@ def plot_county(county):
     import streamlit.components.v1 as components
     if len(county)<=3:
         for C in county:
-            st.text(C)
+            st.write(C)
             f = FIPSs[FIPSs.County == C].FIPS.values[0]
             components.iframe("https://covidactnow.org/embed/us/county/"+f, width=350, height=365, scrolling=False)
             
@@ -260,7 +260,7 @@ def plot_state():
     #FIPSs['FIPS'] = FIPSs.FIPS.astype(int).astype(str).str.zfill(5)
     @st.cache(ttl=3*60*60, suppress_st_warning=True)
     def get_testing_data_state():
-            st.text('Getting testing data for California State')
+            st.write('Getting testing data for California State')
             path1 = 'https://data.covidactnow.org/latest/us/states/CA.OBSERVED_INTERVENTION.timeseries.json'
             df = json.loads(requests.get(path1).text)
             data = pd.DataFrame.from_dict(df['actualsTimeseries'])
@@ -281,7 +281,7 @@ def plot_state():
                 data.loc[(data['new_positive_tests'] < 0)] = np.nan
             except: 
                 data['new_positive_tests'] = np.nan
-                st.text('test data not avilable')
+                st.write('test data not avilable')
             data['new_positive_tests_rolling'] = data['new_positive_tests'].fillna(0).rolling(14).mean()
             data['new_tests'] = data['new_negative_tests']+data['new_positive_tests']
             data['new_tests_rolling'] = data['new_tests'].fillna(0).rolling(14).mean()
@@ -328,11 +328,11 @@ def plot_state():
     
     incidence['rolling_incidence'] = incidence.incidence.rolling(7).mean()
     metric = (incidence['rolling_incidence']*100000/population).iloc[[-1]]
-    st.text('Number of new cases averaged over last seven days = %s' %'{:,.1f}'.format(metric.values[0]))
-    st.text("Population under consideration = %s"% '{:,.0f}'.format(population))
-    st.text("Total cases = %s"% '{:,.0f}'.format(county_confirmed_time.tail(1).values[0][0]))
-    st.text("Total deaths = %s"% '{:,.0f}'.format(county_deaths_time.tail(1).values[0][0]))
-    st.text("% test positivity (14 day average)= "+"%.2f" % testing_percent)
+    st.write('Number of new cases averaged over last seven days = %s' %'{:,.1f}'.format(metric.values[0]))
+    st.write("Population under consideration = %s"% '{:,.0f}'.format(population))
+    st.write("Total cases = %s"% '{:,.0f}'.format(county_confirmed_time.tail(1).values[0][0]))
+    st.write("Total deaths = %s"% '{:,.0f}'.format(county_deaths_time.tail(1).values[0][0]))
+    st.write("% test positivity (14 day average)= "+"%.2f" % testing_percent)
     #print(county_deaths_time.tail(1).values[0])
     #print(cases_per100k.head())
     fig, ((ax4, ax3),(ax1, ax2)) = plt.subplots(2,2, figsize=(12,8))
